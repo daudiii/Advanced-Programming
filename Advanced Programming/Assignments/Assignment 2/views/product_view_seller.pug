@@ -1,0 +1,268 @@
+html
+    head
+        style.
+
+            .formcontainer{
+                position:fixed;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+                background: rgba(189,197,255,0.7);
+
+            }
+            form{
+                margin:10px;
+            }
+            .logobg {       position:relative;
+                            width:100%; height:2.2in;
+                            background-image: url('/assets/images/p3.jpg');
+                            background-size: cover;
+                 }
+
+            .logo{
+                font-size: 50px;
+                color: white;
+                padding:0px;
+                margin:0px;
+                border:0px;
+                padding-top:1.1in;
+                padding-left:0.5in;
+
+            }
+
+            .subtext{
+                font-size: 11px;
+                color:white;
+                padding-left:0.9in;
+                padding-top:0px;
+            }
+
+            .products {
+            	width: 1000px;
+            	border-collapse: collapse;
+            	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            }
+
+            th, td {
+            	padding: 15px;
+            }
+
+            .f td{
+                padding:1px;
+            }
+            th {
+            	text-align: left;
+                background-color: #55607f;
+                color: #fff
+            }
+
+            .products td {color:black; background-color: white;}
+
+            .edit, .delete{
+                width:48%; height:100%; float:left; background-color:#8CFF89; margin:1px; line-height:25px; text-align:center;
+            }
+
+            .add{
+                background-color:#8CFF89; margin:0px; margin-left:3px; margin-bottom:2px;padding:3px; font-size: 20px; width:fit-content;
+            }
+            .delete
+            {
+                background:#FF8989;
+            }
+
+            #logout
+            {
+                width:fit-content;
+                background:#FF8989;
+                color:white;
+                position:absolute;
+                right:10px;
+                bottom:10px;
+            }
+
+            img {
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              padding: 5px;
+              width: 150px;
+            }
+
+
+        title Products
+        script(src="/assets/js/jquery-3.4.1.js")
+
+    body(style={background:"#DFEEFF"})
+        div(style={width:"100%", height:"100%", background:"#DFEEFF"})
+            div(class="logobg")
+                form(action="/signout", method="get")
+                    input#logout(type="submit", value="logout", name="logout")
+                p.logo My Shop
+                    p.subtext Shop here conveniently!
+
+
+
+            h1(style={marginTop:"2px", marginBottom:"2px"}) Products
+
+            div.add Add new Product
+            table.products
+                tr
+                    th Image
+                    th Product Name
+                    th Category
+                    th Description
+                    th Review
+                    th Price
+                    th Action
+
+                each r in results
+                    tr
+                        td
+                            img(src='assets/images/'+r.image)
+                        td= r.product_name
+                        td= r.category
+                        td= r.description
+                        td= r.review
+                        td= r.product_price
+                        td
+                            div.edit(data-id= r._id) Edit
+                            div.delete(data-id= r._id, data-path= r.image) Delete
+
+
+            // add new product
+            div.formcontainer.AddProd
+                form(id="add", action="/save", method="POST" enctype="multipart/form-data")
+                    table.f
+                        tr
+                            td Product Name:
+                            td
+                                input(name="product_name", type="text")
+
+                        tr
+                            td Category:
+                            td
+                                input(name="category", type="text")
+
+                        tr
+                            td Description:
+                            td
+                                input(name="desc", type="text")
+
+                        tr
+                            td Review:
+                            td
+                                input(name="review", type="text")
+                        tr
+                            td Product Price:
+                            td
+                                input(name="product_price", type="text")
+
+                        tr
+                            td Image:
+                            td
+                                input(type="file" name="filetoupload")
+
+                        tr
+                            td
+                                input(name="cancel", class="cancelAdd", value="Cancel", type="button")
+                            td
+                                input(name="submit", type="submit", value="Add")
+
+
+
+            // update product
+            div.formcontainer.EditProd
+                form(id="edit", action="/update", method="POST")
+                    table.f
+                        tr
+                            td Product Name:
+                            td
+                                input(name="product_name", type="text")
+
+                        tr
+                            td Category:
+                            td
+                                input(name="category", type="text")
+
+                        tr
+                            td Description:
+                            td
+                                input(name="desc", type="text")
+
+                        tr
+                            td Review:
+                            td
+                                input(name="review", type="text")
+                        tr
+                            td Product Price:
+                            td
+                                input(name="product_price", type="text")
+                        tr
+                            td
+                                input(name="id", type="hidden", id="editId")
+                        tr
+                            td
+                                input(name="cancel", class="cancelEdit", value="Cancel", type="button")
+                            td
+                                input(name="submit", type="submit", value="Update")
+
+            // delete product
+            // update product
+            div.formcontainer.DelProd
+                form(id="delete", action="/delete", method="POST")
+                    table.f
+                        tr
+                            td Are You sure?
+                        tr
+                            td
+                                input(name="product_id", type="hidden", id="delId")
+                        tr
+                            td
+                                input(name="image", type="hidden", id="delIdpic")
+                        tr
+                            td
+                                input(name="cancel", class="cancelDel", value="Cancel", type="button")
+                            td
+                                input(name="submit", type="submit", value="Delete")
+
+        script.
+            $(".AddProd").hide();
+            $(".EditProd").hide();
+            $(".DelProd").hide();
+
+            //add button
+            $(".add").on("click", function(){
+                $(".AddProd").show();
+            })
+
+            // edit button/////////////////////////
+            $(".edit").on('click', function(){
+                console.log($(this).data("id"));
+                $(".EditProd").show();
+                $("#editId").val($(this).data("id"));
+            });
+
+            //delete button
+            $(".delete").on('click', function(){
+                $(".DelProd").show();
+                $("#delId").val($(this).data("id"));
+                console.log($(this).data("path"))
+                $("#delIdpic").val($(this).data("path"));
+            });
+
+
+
+            //cancel buttons
+            // cancel Add
+            $(".cancelAdd").on("click", function(){
+                $(".AddProd").hide();
+            })
+
+            // cancel Edit
+            $(".cancelEdit").on("click", function(){
+                $(".EditProd").hide();
+            })
+
+            // cancel Delete
+            $(".cancelDel").on("click", function(){
+                $(".DelProd").hide();
+            })

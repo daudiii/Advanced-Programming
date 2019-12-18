@@ -1,0 +1,115 @@
+html
+    head
+        style.
+            .logobg {       position:relative;
+                            width:100%; height:2.2in;
+                            background-image: url('/assets/images/p3.jpg');
+                            background-size: cover;
+                 }
+
+            .logo{
+                font-size: 50px;
+                color: white;
+                padding:0px;
+                margin:0px;
+                border:0px;
+                padding-top:1.1in;
+                padding-left:0.5in;
+
+            }
+
+            img {
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              padding: 5px;
+              width: 150px;
+            }
+
+
+            .subtext{
+                font-size: 11px;
+                color:white;
+                padding-left:0.9in;
+                padding-top:0px;
+            }
+
+            .products {
+            	width: 1000px;
+            	border-collapse: collapse;
+            	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            }
+
+            th, td {
+            	padding: 15px;
+            }
+
+            .f td{
+                padding:1px;
+            }
+            th {
+            	text-align: left;
+                background-color: #55607f;
+                color: #fff
+            }
+
+            .products td {color:black; background-color: white;}
+
+            .edit, .delete{
+                width:55%; height:100%; float:left; background-color:#8CFF89; margin:1px; line-height:25px; text-align:center;
+            }
+
+
+            #logout
+            {
+                width:fit-content;
+                background:#FF8989;
+                color:white;
+                position:absolute;
+                right:10px;
+                bottom:10px;
+            }
+
+
+        title Products
+        script(src="/assets/js/jquery-3.4.1.js")
+
+    body(style={background:"#DFEEFF"})
+        div(style={width:"100%", height:"100%", background:"#DFEEFF"})
+            div(class="logobg")
+                form(action="/signout", method="get")
+                    input#logout(type="submit", value="logout", name="logout")
+                p.logo My Shop
+                    p.subtext Shop here conveniently!
+
+
+
+            h1(style={marginTop:"2px", marginBottom:"2px"}) Products
+
+            table.products
+                tr
+                    th Image
+                    th Product Name
+                    th Category
+                    th Description
+                    th Review
+                    th Price
+                    th Action
+
+                each r in results
+                    tr
+                        td
+                            img(src='assets/images/'+r.image)
+                        td= r.product_name
+                        td= r.category
+                        td= r.description
+                        td= r.review
+                        td= r.product_price
+                        td
+                            div.edit Buy
+
+
+        script.
+            // edit button/////////////////////////
+            $(".edit").on('click', function(){
+                $(this).html('Bought');
+            });

@@ -1,0 +1,74 @@
+head
+  title Sign In
+  script(src='/assets/js/jquery-3.4.1.js')
+  style.
+    .formcontainer{
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:30%;
+    transform: translate(-50%, -50%);
+    background: rgba(189,197,255,0.5);
+    }
+    form{
+    margin:10px;
+    }
+    body{
+    background: url("/assets/images/p1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat
+    }
+    .logobg {         width:100%; height:1.7in;
+    background-image: url('/assets/images/p5.jpg');
+    background-size: cover;
+    }
+    .logo{
+    font-size: 40px;
+    color: white;
+    padding:0px;
+    margin:0px;
+    border:0px;
+    padding-top:0.5in;
+    padding-left:0.5in;
+    }
+    .subtext{
+    font-size: 11px;
+    color:white;
+    padding-left:0.9in;
+    padding-top:0px;
+    }
+    input{
+    width:75%;
+    }
+    .error{
+    width:100%;
+    color:red;
+    font-size:11px;
+    padding:3px;
+    }
+    .changepage{
+        text-Align: right;
+    }
+.formcontainer
+  div(style='width:"100%", height:"100%", background:"#DFEEFF"')
+    .logobg
+      p.logo  My Shop
+      p.subtext  Shop here conveniently!
+  form#signin(action='/processSignin' method='POST')
+    table(style='width:100%')
+      tr
+        td  Name:
+        td
+          input(name='name' type='text' required)
+      tr
+        td  Password:
+        td
+          input(name='pswd' type='password' required)
+      tr
+        td
+          input(name='submit' type='submit' value='Submit')
+        td.changepage
+            a(id="sLink" href='/signup') Create Account?
+  .error= error
+
+  script.
